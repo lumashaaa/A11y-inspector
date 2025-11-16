@@ -51,8 +51,8 @@
 
 1. **Клонируйте репозиторий**
    ```bash
-   git clone https://github.com/your-username/accessibility-checker.git
-   cd accessibility-checker
+   git clone https://github.com/Kostenkov-2021/A11y-inspector.git
+   cd A11y-inspector
    ```
 
 2. **Установите расширение в браузере**
@@ -64,7 +64,7 @@
 
 ### Установка из файла
 
-1. Скачайте последнюю версию расширения из [Releases](https://github.com/your-username/accessibility-checker/releases)
+1. Скачайте последнюю версию расширения из [Releases](https://github.com/Kostenkov-2021/A11y-inspector/releases)
 2. Распакуйте архив в выбранную папку
 3. Следуйте шагам 2-5 из инструкции выше
 
@@ -184,8 +184,8 @@ accessibility-inspector/
 
 1. **Клонируйте репозиторий**
    ```bash
-   git clone https://github.com/your-username/accessibility-checker.git
-   cd accessibility-checker
+   git clone https://github.com/Kostenkov-2021/A11y-inspector.git
+   cd A11y-inspector
    ```
 
 2. **Внесите изменения в код**
