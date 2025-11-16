@@ -49,12 +49,32 @@ class ReportGenerator {
     <div class="issue ${issue.type}">
       <div class="category">${issue.category.toUpperCase()}</div>
       <div><strong>${issue.type.toUpperCase()}:</strong> ${issue.message}</div>
+            ${issue.details ? this.generateContrastDetails(issue.details) : ''}
       ${issue.selector ? `<div><strong>Selector:</strong> ${issue.selector}</div>` : ''}
-      ${issue.element ? `<div><strong>Element:</strong> <code>${issue.element}</code></div>` : ''}
+      ${issue.element ? `<div><strong>Element:</strong> <code>${this.escapeHtml(issue.element)}</code></div>` : ''}
     </div>
   `).join('')}
 </body>
 </html>`;
+  }
+
+    generateContrastDetails(details) {
+    return `
+      <div class="details">
+        <strong>Ratio:</strong> ${details.ratio}:1 (required: ${details.requiredRatio}:1)<br>
+        <strong>Font Size:</strong> ${details.fontSize}<br>
+        <strong>Font Weight:</strong> ${details.fontWeight}
+      </div>
+    `;
+  }
+
+  escapeHtml(unsafe) {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   }
 
   generateCSV(data) {
@@ -64,9 +84,10 @@ class ReportGenerator {
       issue.category,
       `"${issue.message.replace(/"/g, '""')}"`,
       issue.selector || '',
-      `"${(issue.element || '').replace(/"/g, '""')}"`
+      `"${(issue.element || '').replace(/"/g, '""')}"`,
+      issue.details ? `"${JSON.stringify(issue.details).replace(/"/g, '""')}"` : ''
     ]);
-    
+        
     return [headers, ...rows].map(row => row.join(',')).join('\n');
   }
 
@@ -85,6 +106,7 @@ class ReportGenerator {
 ${data.issues.map(issue => `
 ### ${issue.type.toUpperCase()} - ${issue.category}
 **Message**: ${issue.message}
+${issue.details ? `**Details**: Ratio ${issue.details.ratio}:1 (required ${issue.details.requiredRatio}:1), Font: ${issue.details.fontSize} ${issue.details.fontWeight}` : ''}
 ${issue.selector ? `**Selector**: \`${issue.selector}\`` : ''}
 ${issue.element ? `**Element**: \`${issue.element}\`` : ''}
 `).join('\n')}`;
