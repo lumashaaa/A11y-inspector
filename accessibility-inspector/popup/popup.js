@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', function() {
+function runAccessibilityCheck() {
+  console.log("Test: функция доступна");
+  document.addEventListener('DOMContentLoaded', function() {
   const urlInput = document.getElementById('url-input');
   const formatSelect = document.getElementById('format-select');
   const checkBtn = document.getElementById('check-btn');
