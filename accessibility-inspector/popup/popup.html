@@ -1,37 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessibility Check</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
   <div class="container">
-    <h2>Проверка доступности</h2>
+    <header role="banner">
+      <h1>Accessibility Inspector</h1>
+    </header>
     
-    <div class="input-group">
-      <label for="url-input">URL сайта:</label>
-      <input type="url" id="url-input" placeholder="https://example.com">
-    </div>
+    <main role="main">
+      <div class="input-group">
+        <label for="url-input" class="required">Website URL:</label>
+        <input 
+          type="url" 
+          id="url-input" 
+          placeholder="https://example.com"
+          aria-required="true"
+          aria-describedby="url-help"
+        >
+        <div id="url-help" class="help-text">
+          Enter full website URL for accessibility checking
+        </div>
+      </div>
+      
+      <div class="input-group">
+        <label for="format-select">Report Format:</label>
+        <select id="format-select" aria-describedby="format-help">
+          <option value="json">JSON</option>
+          <option value="html">HTML</option>
+          <option value="text">Text</option>
+        </select>
+        <div id="format-help" class="help-text">
+          Choose format for downloading the report
+        </div>
+      </div>
+      
+      <div class="button-group">
+        <button id="check-btn" class="primary-btn" aria-live="polite">
+          <span class="button-text">Check Accessibility</span>
+          <span class="loading-spinner hidden" aria-hidden="true"></span>
+        </button>
+        
+        <button id="current-page-btn" class="secondary-btn" type="button">
+          Current Page
+        </button>
+      </div>
+      
+      <div id="status" 
+           class="status" 
+           role="status" 
+           aria-live="polite" 
+           aria-atomic="true">
+      </div>
+      
+      <section id="results" class="results hidden" aria-labelledby="results-heading">
+        <h2 id="results-heading">Check Results</h2>
+        
+        <div class="summary-stats" id="summary-stats"></div>
+        
+        <div class="report-actions">
+          <button id="download-btn" class="secondary-btn">
+            📥 Download Report
+          </button>
+          <button id="copy-btn" class="secondary-btn">
+            📋 Copy to Clipboard
+          </button>
+        </div>
+        
+        <div id="report-content" class="report-content"></div>
+      </section>
+    </main>
     
-    <div class="input-group">
-      <label for="format-select">Формат отчёта:</label>
-      <select id="format-select">
-        <option value="json">JSON</option>
-        <option value="html">HTML</option>
-        <option value="csv">CSV</option>
-        <option value="markdown">Markdown</option>
-      </select>
-    </div>
-    
-    <button id="check-btn" class="primary-btn">Проверить</button>
-    
-    <div id="status" class="status"></div>
-    
-    <div id="results" class="results hidden">
-      <h3>Результаты проверки</h3>
-      <div id="report-content"></div>
-      <button id="download-btn" class="secondary-btn">Скачать отчёт</button>
-    </div>
+    <footer role="contentinfo" class="footer">
+      <p>Accessibility Inspector v1.0</p>
+    </footer>
   </div>
   
   <script src="popup.js"></script>
