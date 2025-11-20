@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const summaryStats = document.getElementById('summary-stats');
   const buttonText = checkBtn.querySelector('.button-text');
   const loadingSpinner = checkBtn.querySelector('.loading-spinner');
+  const openReport = document.getElementById("open-report");
 
   // Current report data
   let currentReport = null;
@@ -31,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
     downloadBtn.addEventListener('click', downloadReport);
     copyBtn.addEventListener('click', copyReportToClipboard);
     urlInput.addEventListener('keypress', handleUrlInputKeypress);
+    openReport.addEventListener("click", openReportAsWindow);
 
     // Load saved data
     loadSavedData();
@@ -250,7 +252,7 @@ document.addEventListener('DOMContentLoaded', function() {
    */
   function displayReportContent(reportData) {
     const format = formatSelect.value;
-    
+
     try {
       let content = '';
       
@@ -518,4 +520,18 @@ document.addEventListener('DOMContentLoaded', function() {
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
   }
+
+  function openReportAsWindow(){
+    chrome.storage.local.set({
+      "currentReport": currentReport
+    }, () => {
+      chrome.windows.create({
+        url: "popup/report-popup.html",
+        type: "popup",
+        width: 900,
+        height: 650
+      })
+    });
+  }
 });
+
