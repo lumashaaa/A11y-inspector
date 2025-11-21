@@ -1,5 +1,10 @@
+/*
+    * Использует Marked.js (https://github.com/markedjs/marked)
+*/
+
 var currentReport = null;
 var currentSelectedFormat = "html";
+let _currentReportAsMarkdown = "";
 
 
 const selectAsFormatIn = document.getElementById("selectAsFormatIn");
@@ -480,6 +485,11 @@ function downloadAsJSON(reportData){
     downloadFile(fileContent, "report_" + formatter + ".json");
 }
 
+function downloadAsMARKDOWN(reportData){
+    const date = (new Date(reportData.timestamp)).toLocaleString('ru-RU');
+    const formatter = date.replace(".", '_').replace(".", '_').replace(" ", '_').replace(",", "_").replace(":", "_"); 
+    downloadFile(_currentReportAsMarkdown, "report_" + formatter + ".md");
+}
 
 function downloadFile(fileContent, fileName, fileType="text/plain"){
     const blob = new Blob([fileContent], { type: fileType });
@@ -498,7 +508,61 @@ function showInJsonFormat(reportData){
     container.innerText = JSON.stringify(reportData, true, 4);
 }
 
+marked.setOptions({
+    breaks: true,
+    gfm: true
+});
 
+
+function parseReportAsMarkdwon(reportData){
+    let _report = "# Отчет по доступности сайта\n";
+    _report += "## Сводка\n\n";
+    _report += "**Сайт:** " + reportData.url + "\n";
+    _report += "**Время:** " + reportData.timestamp + "\n";
+    _report += "**Всего проблем:** " + reportData.summary.total + "\n";
+    _report += "**Предупреждений:** " + reportData.summary.warnings + "\n";
+    _report += "**Ошибок:** " + reportData.summary.errors + "\n\n";
+    _report += "## Детализация ошибок \n";
+    reportData.issues.forEach((item, i) => {
+        _report += "### " + i + " > Category: " + item.category + "\n\n";
+        _report += "**Type:** " + item.type + "\n";
+        _report += "**Message:** " + item.message + "\n";
+        _report += item.selector ? "**Selector:** " + item.selector + "\n" : "";
+        _report += item.element ? "**Element code:**\n```\n" + item.element + "\n```\n" : "";
+        if (item.category === "contrast"){
+            _report += "#### Contrast parameters, Score: " + item.details.suggestions.score + "\n";
+            _report += "##### Background info\n\n"
+            _report += "**backgroundColor:** " + item.details.backgroundColor + "\n";
+            _report += "**fontSize:** " + item.details.fontSize + "\n";
+            _report += "**fontWeight:** " + item.details.fontWeight + "\n";
+            _report += "**ratio:** " + item.details.ratio + "\n";
+            _report += "**requiredRatio:** " + item.details.requiredRatio + "\n";
+            _report += "**textColor:** " + item.details.textColor + "\n";
+            _report += "##### Top element info\n\n";
+            _report += "**Color:**\n";
+            _report += " - **RGB:** " + item.details.suggestions.current + "\n";
+            _report += " - **HEX:** " + item.details.suggestions.currentHex + "\n\n";
+            _report += "**Ratio:** " + item.details.suggestions.currentRatio + "\n";
+            _report += "##### Top element suggestions\n\n";
+            _report += "**Suggested color:** \n";
+            _report += " - **RGB:** " + item.details.suggestions.suggested + "\n";
+            _report += " - **HEX:** " + item.details.suggestions.suggestedHex + "\n\n";
+            _report += "**Ratio:** " + item.details.suggestions.suggestedRatio + "\n";
+        }
+        _report += "\n------------\n";
+    });
+
+    return _report;
+}
+
+
+function showInMarkdownFormat(reportData){
+    _currentReportAsMarkdown = parseReportAsMarkdwon(reportData);
+    console.log(_currentReportAsMarkdown)
+    const preview = document.getElementById("report--content--markdown--preview");
+    const htmlText = marked.parse(_currentReportAsMarkdown);
+    preview.innerHTML = htmlText;
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -506,6 +570,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currentReport = result.currentReport;
         init(currentReport);
         showInJsonFormat(currentReport);
+        showInMarkdownFormat(currentReport);
     });
     
     downloadAsFormat.addEventListener("click", function() {
@@ -515,6 +580,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
             case "json":
                 downloadAsJSON(currentReport);
+                break;
+            case "markdown":
+                downloadAsMARKDOWN(currentReport);
                 break;
         }
         

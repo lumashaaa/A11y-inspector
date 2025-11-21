@@ -70,6 +70,7 @@ function generateIssuse(position, issuse){
         label_for_element_code.innerHTML = "<strong>Element code</strong>:";
         details_containet.appendChild(label_for_element_code);
         let element_code = document.createElement("code");
+        element_code.classList.add("issuses__list__details__code");
         element_code.innerText = cnt_element;
         details_containet.appendChild(element_code);
     }

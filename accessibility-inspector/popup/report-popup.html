@@ -3,6 +3,7 @@
 <head>
     <title>Предпросмотр отчета</title>
     <meta charset="utf-8">
+    <script src="marked.min.js"></script>
     <meta http-equiv="Content-Security-Policy" 
       content="script-src 'self' 'unsafe-inline'">
     <link rel="stylesheet" href="report-popup.css">
@@ -11,6 +12,7 @@
     <nav class="menu">
         <h1>Предпросмотр отчета по доступности сайта</h1>
         <div class="menu__download">
+            <label for="selectAsFormatIn">Формат отчета</label>
             <select id="selectAsFormatIn">
                 <option value="html">HTML</option>
                 <option value="json">JSON</option>
@@ -76,7 +78,7 @@
         <div id="report--content--markdown--preview"></div>
     </div>
     <div id="report-content--json">
-        <pre><code id="report-content--json--preview"></code></pre>
+        <pre><code id="report-content--json--preview" class="issuses__list__details__code"></code></pre>
     </div>
     <script src="report-popup.js"></script>
     <script src="report-popup-local.js"></script>

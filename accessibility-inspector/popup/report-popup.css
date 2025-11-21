@@ -2,16 +2,6 @@ body{
     font-size: 1rem;
 }
 
-code {
-  background-color: #f4f4f4;
-  color: #d63384;
-  padding: 0.8em;
-  border-radius: 4px;
-  font-family: 'Consolas', monospace;
-  font-size: 0.875em;
-  border: 1px solid #e1e1e1;
-}
-
 .about__list{
     margin-left: 1rem;
 }
@@ -108,6 +98,15 @@ code {
     width: 98%;
     flex-direction: row;
     justify-content: space-between;
+}
+.issuses__list__details__code {
+    background-color: #f4f4f4;
+    color: #d63384;
+    padding: 0.8em;
+    border-radius: 4px;
+    font-family: 'Consolas', monospace;
+    font-size: 0.875em;
+    border: 1px solid #e1e1e1;
 }
 
 .issuses__list__details__container {
@@ -220,4 +219,27 @@ select option:checked {
 
 #report-content--json pre code {
     display: flex;
+}
+
+#report--content--markdown--preview {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#report--content--markdown--preview code {
+    display: flex;
+    background-color: #f4f4f4;
+    color: #d63384;
+    padding: 0.1rem;
+    margin: .2rem;
+    border-radius: 4px;
+    font-family: 'Consolas', monospace;
+    font-size: 0.875em;
+    border: 1px solid #e1e1e1;
+    white-space: break-spaces;
+}
+
+#report--content--markdown--preview hr {
+    width: -webkit-fill-available;
 }
