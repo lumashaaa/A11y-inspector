@@ -37,7 +37,7 @@ function downloadAsHTML(reportData){
     margin-right: 1rem;
 }
 
-.issuses__controls {
+.issues__controls {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -45,7 +45,7 @@ function downloadAsHTML(reportData){
     margin-bottom: 1rem;
 }
 
-.issuses__controls__selector {
+.issues__controls__selector {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -53,7 +53,7 @@ function downloadAsHTML(reportData){
     width: -webkit-fill-available;
 }
 
-.issuses__controls__buttons {
+.issues__controls__buttons {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -62,22 +62,22 @@ function downloadAsHTML(reportData){
     margin-top: 0.5rem;
 }
 
-.issuses__controls__buttons__filters {
+.issues__controls__buttons__filters {
     display: flex;
     flex-direction: row;
     align-items: center;
     /* width: 200%; */
     justify-content: space-between;
 }
-.issuses__controls__buttons__filters button {
+.issues__controls__buttons__filters button {
     margin-left: 1rem;
 }
 
-#issuses__list{
+#issues__list{
     margin-left: 1rem;
 }
 
-.issuses__list__details {
+.issues__list__details {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -89,7 +89,7 @@ function downloadAsHTML(reportData){
     margin-bottom: .5rem;
 }
 
-.issuses__list__details summary {
+.issues__list__details summary {
     /*display: flex;*/
     cursor: pointer;
     padding: .75rem 1.25rem;
@@ -100,31 +100,31 @@ function downloadAsHTML(reportData){
     justify-content: space-between;
 }
 
-.issuses__list__details__summary__issuse__default {
+.issues__list__details__summary__issuse__default {
     background-color: #1a73e8;
     color: #ffffff;
 }
 
-.issuses__list__details__summary__issuse__warnign {
+.issues__list__details__summary__issuse__warnign {
     background-color: #f9ab00;
 }
 
-.issuses__list__details__summary__issuse__error {
+.issues__list__details__summary__issuse__error {
     background-color: #d93025;
     color: #ffffff;
 }
 
-.issuses__list__details__title {
+.issues__list__details__title {
     display: inline-flex;
     width: 98%;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
-.issuses__list__details__title h3 {
+.issues__list__details__title h3 {
     margin: .3rem;
 }
-.issuses__list__details__code {
+.issues__list__details__code {
     background-color: #f4f4f4;
     color: #d63384;
     padding: 0.8em;
@@ -135,7 +135,7 @@ function downloadAsHTML(reportData){
     margin-bottom: .5rem;
 }
 
-.issuses__list__details__container {
+.issues__list__details__container {
     margin: 1.2rem; 
     display: flex;
     flex-direction: column;
@@ -270,14 +270,14 @@ select option:checked {
     width: -webkit-fill-available;
 }
 
-.issuses__list__details__color__container {
+.issues__list__details__color__container {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
 
-.issuses__list__details__color__container__show {
+.issues__list__details__color__container__show {
     width: 1rem;
     height: 1rem;
     border: .1rem solid;
@@ -285,26 +285,26 @@ select option:checked {
 }
     `;
     const script = `
-    var isAllIssusesElementsExpanded = true;
+    var isAllissuesElementsExpanded = true;
 
 const popupBodyReport = document.getElementById("popup-body-report");
 
 const summaryUrl = document.getElementById("summary--about--showurl");
 const summaryDatetime = document.getElementById("summary--about--showdatetime");
-const summaryTotalIssuses = document.getElementById("summary--about--total");
+const summaryTotalissues = document.getElementById("summary--about--total");
 const summaryWarnings = document.getElementById("summary--about--warnings");
 const summaryErrors = document.getElementById("summary--about--errors");
 
-const selectorByIssuseTypes = document.getElementById("selector-by-issuse-types");
+const selectorByIssuesTypes = document.getElementById("selector-by-issues-types");
 const selectorByCategories = document.getElementById("selector-by-categorys");
 const btnAcceptFilters = document.getElementById("btn-accept-filters");
 const btnResetFilters = document.getElementById("btn-reset-filters");
-const btnExpandIssuses = document.getElementById("btn-expand-issuses");
+const btnExpandissues = document.getElementById("btn-expand-issues");
 
 
 function createPairConstructElement(title, value, colorValue){
     let colorDiv = document.createElement("div");
-    colorDiv.classList.add("issuses__list__details__color__container");
+    colorDiv.classList.add("issues__list__details__color__container");
     let titltColor = document.createElement("strong");
     titltColor.innerText = title + (value ? ": " : "");
     colorDiv.appendChild(titltColor);
@@ -316,7 +316,7 @@ function createPairConstructElement(title, value, colorValue){
         valueContainer.appendChild(valueShowed);
         if (colorValue){
             let colorShowed = document.createElement("div");
-            colorShowed.classList.add("issuses__list__details__color__container__show");
+            colorShowed.classList.add("issues__list__details__color__container__show");
             colorShowed.style.backgroundColor = colorValue;
             valueContainer.appendChild(colorShowed);
         }
@@ -327,79 +327,79 @@ function createPairConstructElement(title, value, colorValue){
 
 
 
-function generateIssuse(position, issuse){
+function generateIssues(position, issues){
     /* Создает развертывающийся виджет для единичной проблемы */
-    const cnt_category = Object.hasOwn(issuse, "category") ? issuse.category : "Категория не указана";
-    const cnt_element = Object.hasOwn(issuse, "element") ? issuse.element : null;
-    const cnt_message = (Object.hasOwn(issuse, "message") ? issuse.message : "Сообщение отсутсвует");
-    const cnt_selector = Object.hasOwn(issuse, "selector") ? issuse.selector : null;
-    const cnt_type = Object.hasOwn(issuse, "type") ? issuse.type : "Не указано";
+    const cnt_category = Object.hasOwn(issues, "category") ? issues.category : "Категория не указана";
+    const cnt_element = Object.hasOwn(issues, "element") ? issues.element : null;
+    const cnt_message = (Object.hasOwn(issues, "message") ? issues.message : "Сообщение отсутсвует");
+    const cnt_selector = Object.hasOwn(issues, "selector") ? issues.selector : null;
+    const cnt_type = Object.hasOwn(issues, "type") ? issues.type : "Не указано";
 
     let details = document.createElement("details");
     details.setAttribute("data-category", cnt_category);
-    details.setAttribute("data-issuse-type", cnt_type);
-    details.classList.add("issuses__list__details");
-    details.id = "issuses__list__issuse__" + position;
+    details.setAttribute("data-issues-type", cnt_type);
+    details.classList.add("issues__list__details");
+    details.id = "issues__list__issues__" + position;
     let summary = document.createElement("summary");
-    summary.classList.add("issuses__list__details__summary__issuses");
+    summary.classList.add("issues__list__details__summary__issues");
     switch (cnt_type) {
         case "error":
-            summary.classList.add("issuses__list__details__summary__issuse__error");
+            summary.classList.add("issues__list__details__summary__issues__error");
             break;
         case "warning":
-            summary.classList.add("issuses__list__details__summary__issuse__warnign");
+            summary.classList.add("issues__list__details__summary__issues__warning");
             break;
         default:
-            summary.classList.add("issuses__list__details__summary__issuse__default");
+            summary.classList.add("issues__list__details__summary__issues__default");
             break;
     }
     let summary_container = document.createElement("span");
-    summary_container.classList.add("issuses__list__details__title");
+    summary_container.classList.add("issues__list__details__title");
     let category_span = document.createElement("h3");
     category_span.innerHTML = "Issue: " + position + " > <strong>Category</strong>: " + cnt_category;
-    let span_issuse_type = document.createElement("span");
-    span_issuse_type.innerText = cnt_type;
+    let span_issues_type = document.createElement("span");
+    span_issues_type.innerText = cnt_type;
     summary_container.appendChild(category_span);
-    summary_container.appendChild(span_issuse_type);
+    summary_container.appendChild(span_issues_type);
     summary.appendChild(summary_container);
     details.appendChild(summary);
 
-    let details_containet = document.createElement("div");
+    led details_contained = document.createElement("div");
 
     if (cnt_selector){
-        details_containet.appendChild(createPairConstructElement("Selector", cnt_selector));
+        details_contained.appendChild(createPairConstructElement("Selector", cnt_selector));
     }
 
-    details_containet.classList.add("issuses__list__details__container");
+    details_contained.classList.add("issues__list__details__container");
     let p_message_title = document.createElement("strong");
     p_message_title.innerText = "Message:";
-    details_containet.appendChild(p_message_title);
+    details_contained.appendChild(p_message_title);
     let p_message_text = document.createElement("p")
     p_message_text.innerText = cnt_message;
-    details_containet.appendChild(p_message_text);
+    details_contained.appendChild(p_message_text);
     
     if (cnt_element){
         let label_for_element_code = document.createElement("p");
         label_for_element_code.innerHTML = "<strong>Element code</strong>:";
-        details_containet.appendChild(label_for_element_code);
+        details_contained.appendChild(label_for_element_code);
         let element_code = document.createElement("code");
-        element_code.classList.add("issuses__list__details__code");
+        element_code.classList.add("issues__list__details__code");
         element_code.innerText = cnt_element;
-        details_containet.appendChild(element_code);
+        details_contained.appendChild(element_code);
     }
     
 
     if (cnt_category == "contrast"){
         let hrAfterCode = document.createElement("hr");
         hrAfterCode.style = "width: -webkit-fill-available;";
-        details_containet.appendChild(hrAfterCode);
-        details_containet.appendChild(createPairConstructElement("Contrast parameters"));
+        details_contained.appendChild(hrAfterCode);
+        details_contained.appendChild(createPairConstructElement("Contrast parameters"));
 
         let contrastParametersContainer = document.createElement("div");
         contrastParametersContainer.style = "margin-left: .7rem;"
 
         contrastParametersContainer.appendChild(createPairConstructElement(
-            "Score", issuse.details.suggestions.score
+            "Score", issues.details.suggestions.score
         ));
 
         contrastParametersContainer.appendChild(createPairConstructElement("Background element:"));
@@ -407,17 +407,17 @@ function generateIssuse(position, issuse){
         let listBackColorShowed = document.createElement("ul");
         [
             createPairConstructElement(
-                "backroundColor", issuse.details.backgroundColor, issuse.details.backgroundColor),
+                "backroundColor", issues.details.backgroundColor, issues.details.backgroundColor),
             createPairConstructElement(
-                "textColor", issuse.details.textColor, issuse.details.textColor),
+                "textColor", issues.details.textColor, issues.details.textColor),
             createPairConstructElement(
-                "fontSize", issuse.details.fontSize),
+                "fontSize", issues.details.fontSize),
             createPairConstructElement(
-                "fontWeight", issuse.details.fontWeight),
+                "fontWeight", issues.details.fontWeight),
             createPairConstructElement(
-                "ratio", issuse.details.ratio),
+                "ratio", issues.details.ratio),
             createPairConstructElement(
-                "requiredRatio", issuse.details.requiredRatio)
+                "requiredRatio", issues.details.requiredRatio)
         ].forEach(item => {
             let itemShowed = document.createElement("li");
             itemShowed.appendChild(item);
@@ -428,39 +428,39 @@ function generateIssuse(position, issuse){
 
         
 
-        if (issuse.details.suggestions){
+        if (issues.details.suggestions){
             contrastParametersContainer.appendChild(createPairConstructElement("Suggestions:"));
 
             let suggestionDiv = document.createElement("div");
             suggestionDiv.style = "margin-left: 1rem;"
             suggestionDiv.appendChild(
                 createPairConstructElement(
-                    "Improvement", issuse.details.suggestions.improvement))
+                    "Improvement", issues.details.suggestions.improvement))
             suggestionDiv.appendChild(document.createElement("hr"));
             suggestionDiv.appendChild(
                 createPairConstructElement(
-                    "Current color", issuse.details.suggestions.current, issuse.details.suggestions.current))
+                    "Current color", issues.details.suggestions.current, issues.details.suggestions.current))
             suggestionDiv.appendChild(
                 createPairConstructElement(
-                    "Suggestion color", issuse.details.suggestions.suggested, issuse.details.suggestions.suggested))
+                    "Suggestion color", issues.details.suggestions.suggested, issues.details.suggestions.suggested))
             suggestionDiv.appendChild(document.createElement("hr"));
             suggestionDiv.appendChild(
                 createPairConstructElement(
-                    "Current ratio", issuse.details.suggestions.currentRatio))
+                    "Current ratio", issues.details.suggestions.currentRatio))
             suggestionDiv.appendChild(
                 createPairConstructElement(
-                    "Suggestion ratio", issuse.details.suggestions.suggestedRatio))
+                    "Suggestion ratio", issues.details.suggestions.suggestedRatio))
             contrastParametersContainer.appendChild(suggestionDiv);
         }
     }
-    details.appendChild(details_containet);
+    details.appendChild(details_contained);
     return details;
 }
 
-function showDetailsIssuses(issuses){
-    const issusesList = document.getElementById("issuses__list");
-    issuses.forEach((element, i) => {
-        issusesList.appendChild(generateIssuse(i, element));
+function showDetailsissues(issues){
+    const issuesList = document.getElementById("issues__list");
+    issues.forEach((element, i) => {
+        issuesList.appendChild(generateIssues(i, element));
     });
 
 }
@@ -468,15 +468,15 @@ function showDetailsIssuses(issuses){
 function getReportAsHTML(){
 }
 
-function initSelectorsForSorting(issusesElements){
-    let issuseTypes = new Set([...issusesElements].map((item) => item.getAttribute("data-issuse-type")));
-    issuseTypes.forEach((item, i) => {
+function initSelectorsForSorting(issuesElements){
+    let issuesTypes = new Set([...issuesElements].map((item) => item.getAttribute("data-issues-type")));
+    issuesTypes.forEach((item, i) => {
         let opt = document.createElement("option");
         opt.innerText = item;
         opt.value = item;
-        selectorByIssuseTypes.appendChild(opt);
+        selectorByIssuesTypes.appendChild(opt);
     });
-    let categoryTypes = new Set([...issusesElements].map((item) => item.getAttribute("data-category")));
+    let categoryTypes = new Set([...issuesElements].map((item) => item.getAttribute("data-category")));
     categoryTypes.forEach((item, i) => {
         let opt = document.createElement("option");
         opt.innerText = item;
@@ -485,7 +485,7 @@ function initSelectorsForSorting(issusesElements){
     });
 }
 
-function checkIsAllExpanedElements(elements){
+function checkIsAllExpandedElements(elements){
     let isAllExpanded = true;
     [...elements].forEach(item => {
         if (item.hasAttribute("open")){
@@ -499,28 +499,28 @@ function init(reportData){
     summaryUrl.innerText = reportData.url;
     summaryUrl.setAttribute("href", reportData.url);
     summaryDatetime.innerText = (new Date(reportData.timestamp)).toLocaleString('ru-RU');
-    summaryTotalIssuses.innerText = reportData.summary.total;
+    summaryTotalissues.innerText = reportData.summary.total;
     summaryWarnings.innerText = reportData.summary.warnings;
     summaryErrors.innerText = reportData.summary.errors;
-    showDetailsIssuses(reportData.issues);
+    showDetailsissues(reportData.issues);
 
-    const issusesElements = document.getElementsByClassName("issuses__list__details");
-    [...issusesElements].forEach(item => {
+    const issuesElements = document.getElementsByClassName("issues__list__details");
+    [...issuesElements].forEach(item => {
         item.addEventListener("click", function() {
             setTimeout(() => {
-                isAllIssusesElementsExpanded = checkIsAllExpanedElements(issusesElements);
-                btnExpandIssuses.innerText = isAllIssusesElementsExpanded ? "Expand all" : "Hide All";
+                isAllissuesElementsExpanded = checkIsAllExpandedElements(issuesElements);
+                btnExpandissues.innerText = isAllissuesElementsExpanded ? "Expand all" : "Hide All";
             }, 5)
             
         })
     });
 
-    initSelectorsForSorting(issusesElements);
+    initSelectorsForSorting(issuesElements);
 
     btnAcceptFilters.addEventListener("click", function() {
-        let filtersElements = [...issusesElements];
+        let filtersElements = [...issuesElements];
         let categoryValue = selectorByCategories.value;
-        let issuseTypeValue = selectorByIssuseTypes.value;
+        let issuesTypeValue = selectorByIssuesTypes.value;
         filtersElements.forEach((item) => {
             item.classList.add("hidden");
         });
@@ -529,9 +529,9 @@ function init(reportData){
                 item.getAttribute("data-category") === categoryValue
             );
         }
-        if (issuseTypeValue != "null"){
+        if (issuesTypeValue != "null"){
             filtersElements = filtersElements.filter(item => 
-                item.getAttribute("data-issuse-type") === issuseTypeValue
+                item.getAttribute("data-issues-type") === issuesTypeValue
             );
         }
         filtersElements.forEach((item) => {
@@ -539,19 +539,19 @@ function init(reportData){
         });
     });
     btnResetFilters.addEventListener("click", function() {
-        let filtersElements = [...issusesElements];
+        let filtersElements = [...issuesElements];
         filtersElements.forEach(item => {
             item.classList.remove("hidden");
         })
         selectorByCategories.value = "null";
-        selectorByIssuseTypes.value = "null";
+        selectorByIssuesTypes.value = "null";
     });
-    btnExpandIssuses.addEventListener("click", function() {
-        [...issusesElements].forEach(item => {
-            item.toggleAttribute("open", isAllIssusesElementsExpanded);
+    btnExpandissues.addEventListener("click", function() {
+        [...issuesElements].forEach(item => {
+            item.toggleAttribute("open", isAllissuesElementsExpanded);
         });
-        isAllIssusesElementsExpanded = !isAllIssusesElementsExpanded;
-        btnExpandIssuses.innerText = isAllIssusesElementsExpanded ? "Expand all" : "Hide All";
+        isAllissuesElementsExpanded = !isAllissuesElementsExpanded;
+        btnExpandissues.innerText = isAllissuesElementsExpanded ? "Expand all" : "Hide All";
     });   
 }
     `;
@@ -560,7 +560,7 @@ function init(reportData){
     <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>Отчет</title>
+    <title>Отчёт</title>
     <meta charset="utf-8">
     <style>${styles}</style>
 </head>
@@ -573,7 +573,7 @@ function init(reportData){
                     <a id="summary--about--showurl"></a>
                 </div>
                 <div class="about__list_item">
-                    <strong>Дата отчета: </strong>
+                    <strong>Дата: </strong>
                     <p id="summary--about--showdatetime"></p>
                 </div>
                 <div class="about__list_item">
@@ -592,29 +592,29 @@ function init(reportData){
         </header>
         <main>
             <h2>Подробности</h2>
-            <div class="issuses__controls">
-                <div class="issuses__controls__selector">
-                    <label for="selector-by-issuse-types">By issuse types</label>
-                    <select id="selector-by-issuse-types">
+            <div class="issues__controls">
+                <div class="issues__controls__selector">
+                    <label for="selector-by-issues-types">By issues types</label>
+                    <select id="selector-by-issues-types">
                         <option value="null"> -- Not selected --</option>
                     </select>
                 </div>
-                <div class="issuses__controls__selector">
+                <div class="issues__controls__selector">
                     <label for="selector-by-categorys">By category</label>
                     <select id="selector-by-categorys">
                         <option value="null"> -- Not selected --</option>
                     </select>
                 </div>
-                <div class="issuses__controls__buttons">
+                <div class="issues__controls__buttons">
 
-                    <button class="primary-btn" id="btn-expand-issuses">Expand all</button>
-                    <div class="issuses__controls__buttons__filters">
+                    <button class="primary-btn" id="btn-expand-issues">Expand all</button>
+                    <div class="issues__controls__buttons__filters">
                         <button class="secondary-btn" id="btn-reset-filters">Reset filters</button>
                         <button class="primary-btn" id="btn-accept-filters">Accept filters</button>
                     </div>
                 </div>
             </div>
-            <div id="issuses__list"></div>
+            <div id="issues__list"></div>
         </main>
         <script>let currentReport = ${JSON.stringify(reportData)};</script>
         <script>${script}</script>

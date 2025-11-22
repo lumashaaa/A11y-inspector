@@ -1,23 +1,23 @@
-var isAllIssusesElementsExpanded = true;
+var isAllIssuesElementsExpanded = true;
 
 const popupBodyReport = document.getElementById("popup-body-report");
 
 const summaryUrl = document.getElementById("summary--about--showurl");
 const summaryDatetime = document.getElementById("summary--about--showdatetime");
-const summaryTotalIssuses = document.getElementById("summary--about--total");
+const summaryTotalIssues = document.getElementById("summary--about--total");
 const summaryWarnings = document.getElementById("summary--about--warnings");
 const summaryErrors = document.getElementById("summary--about--errors");
 
-const selectorByIssuseTypes = document.getElementById("selector-by-issuse-types");
+const selectorByIssuesTypes = document.getElementById("selector-by-issues-types");
 const selectorByCategories = document.getElementById("selector-by-categorys");
 const btnAcceptFilters = document.getElementById("btn-accept-filters");
 const btnResetFilters = document.getElementById("btn-reset-filters");
-const btnExpandIssuses = document.getElementById("btn-expand-issuses");
+const btnExpandIssues = document.getElementById("btn-expand-issues");
 
 
 function createPairConstructElement(title, value, colorValue){
     let colorDiv = document.createElement("div");
-    colorDiv.classList.add("issuses__list__details__color__container");
+    colorDiv.classList.add("issues__list__details__color__container");
     let titltColor = document.createElement("strong");
     titltColor.innerText = title + (value ? ": " : "");
     colorDiv.appendChild(titltColor);
@@ -29,7 +29,7 @@ function createPairConstructElement(title, value, colorValue){
         valueContainer.appendChild(valueShowed);
         if (colorValue){
             let colorShowed = document.createElement("div");
-            colorShowed.classList.add("issuses__list__details__color__container__show");
+            colorShowed.classList.add("issues__list__details__color__container__show");
             colorShowed.style.backgroundColor = colorValue;
             valueContainer.appendChild(colorShowed);
         }
@@ -40,79 +40,79 @@ function createPairConstructElement(title, value, colorValue){
 
 
 
-function generateIssuse(position, issuse){
+function generateIssue(position, issue){
     /* Создает развертывающийся виджет для единичной проблемы */
-    const cnt_category = Object.hasOwn(issuse, "category") ? issuse.category : "Категория не указана";
-    const cnt_element = Object.hasOwn(issuse, "element") ? issuse.element : null;
-    const cnt_message = (Object.hasOwn(issuse, "message") ? issuse.message : "Сообщение отсутсвует");
-    const cnt_selector = Object.hasOwn(issuse, "selector") ? issuse.selector : null;
-    const cnt_type = Object.hasOwn(issuse, "type") ? issuse.type : "Не указано";
+    const cnt_category = Object.hasOwn(issue, "category") ? issue.category : "Категория не указана";
+    const cnt_element = Object.hasOwn(issue, "element") ? issue.element : null;
+    const cnt_message = (Object.hasOwn(issue, "message") ? issue.message : "Сообщение отсутсвует");
+    const cnt_selector = Object.hasOwn(issue, "selector") ? issue.selector : null;
+    const cnt_type = Object.hasOwn(issue, "type") ? issue.type : "Не указано";
 
     let details = document.createElement("details");
     details.setAttribute("data-category", cnt_category);
-    details.setAttribute("data-issuse-type", cnt_type);
-    details.classList.add("issuses__list__details");
-    details.id = "issuses__list__issuse__" + position;
+    details.setAttribute("data-issue-type", cnt_type);
+    details.classList.add("issues__list__details");
+    details.id = "issues__list__issue__" + position;
     let summary = document.createElement("summary");
-    summary.classList.add("issuses__list__details__summary__issuses");
+    summary.classList.add("issues__list__details__summary__issues");
     switch (cnt_type) {
         case "error":
-            summary.classList.add("issuses__list__details__summary__issuse__error");
+            summary.classList.add("issues__list__details__summary__issue__error");
             break;
         case "warning":
-            summary.classList.add("issuses__list__details__summary__issuse__warnign");
+            summary.classList.add("issues__list__details__summary__issue__warning");
             break;
         default:
-            summary.classList.add("issuses__list__details__summary__issuse__default");
+            summary.classList.add("issues__list__details__summary__issue__default");
             break;
     }
     let summary_container = document.createElement("span");
-    summary_container.classList.add("issuses__list__details__title");
+    summary_container.classList.add("issues__list__details__title");
     let category_span = document.createElement("h3");
     category_span.innerHTML = "Issue: " + position + " > <strong>Category</strong>: " + cnt_category;
-    let span_issuse_type = document.createElement("span");
-    span_issuse_type.innerText = cnt_type;
+    let span_issue_type = document.createElement("span");
+    span_issue_type.innerText = cnt_type;
     summary_container.appendChild(category_span);
-    summary_container.appendChild(span_issuse_type);
+    summary_container.appendChild(span_issue_type);
     summary.appendChild(summary_container);
     details.appendChild(summary);
 
-    let details_containet = document.createElement("div");
+    let details_contained = document.createElement("div");
 
     if (cnt_selector){
-        details_containet.appendChild(createPairConstructElement("Selector", cnt_selector));
+        details_contained.appendChild(createPairConstructElement("Selector", cnt_selector));
     }
 
-    details_containet.classList.add("issuses__list__details__container");
+    details_contained.classList.add("issues__list__details__container");
     let p_message_title = document.createElement("strong");
     p_message_title.innerText = "Message:";
-    details_containet.appendChild(p_message_title);
+    details_contained.appendChild(p_message_title);
     let p_message_text = document.createElement("p")
     p_message_text.innerText = cnt_message;
-    details_containet.appendChild(p_message_text);
+    details_contained.appendChild(p_message_text);
     
     if (cnt_element){
         let label_for_element_code = document.createElement("p");
         label_for_element_code.innerHTML = "<strong>Element code</strong>:";
-        details_containet.appendChild(label_for_element_code);
+        details_contained.appendChild(label_for_element_code);
         let element_code = document.createElement("code");
-        element_code.classList.add("issuses__list__details__code");
+        element_code.classList.add("issues__list__details__code");
         element_code.innerText = cnt_element;
-        details_containet.appendChild(element_code);
+        details_contained.appendChild(element_code);
     }
     
 
     if (cnt_category == "contrast"){
         let hrAfterCode = document.createElement("hr");
         hrAfterCode.style = "width: -webkit-fill-available;";
-        details_containet.appendChild(hrAfterCode);
-        details_containet.appendChild(createPairConstructElement("Contrast parameters"));
+        details_contained.appendChild(hrAfterCode);
+        details_contained.appendChild(createPairConstructElement("Contrast parameters"));
 
         let contrastParametersContainer = document.createElement("div");
         contrastParametersContainer.style = "margin-left: .7rem;"
 
         contrastParametersContainer.appendChild(createPairConstructElement(
-            "Score", issuse.details.suggestions.score
+            "Score", issue.details.suggestions.score
         ));
 
         contrastParametersContainer.appendChild(createPairConstructElement("Background element:"));
@@ -120,60 +120,60 @@ function generateIssuse(position, issuse){
         let listBackColorShowed = document.createElement("ul");
         [
             createPairConstructElement(
-                "backroundColor", issuse.details.backgroundColor, issuse.details.backgroundColor),
+                "backroundColor", issue.details.backgroundColor, issue.details.backgroundColor),
             createPairConstructElement(
-                "textColor", issuse.details.textColor, issuse.details.textColor),
+                "textColor", issue.details.textColor, issue.details.textColor),
             createPairConstructElement(
-                "fontSize", issuse.details.fontSize),
+                "fontSize", issue.details.fontSize),
             createPairConstructElement(
-                "fontWeight", issuse.details.fontWeight),
+                "fontWeight", issue.details.fontWeight),
             createPairConstructElement(
-                "ratio", issuse.details.ratio),
+                "ratio", issue.details.ratio),
             createPairConstructElement(
-                "requiredRatio", issuse.details.requiredRatio)
+                "requiredRatio", issue.details.requiredRatio)
         ].forEach(item => {
             let itemShowed = document.createElement("li");
             itemShowed.appendChild(item);
             listBackColorShowed.appendChild(itemShowed);
         })
         contrastParametersContainer.appendChild(listBackColorShowed);
-        details_containet.appendChild(contrastParametersContainer);
+        details_contained.appendChild(contrastParametersContainer);
 
         
 
-        if (issuse.details.suggestions){
+        if (issue.details.suggestions){
             contrastParametersContainer.appendChild(createPairConstructElement("Suggestions:"));
 
             let suggestionDiv = document.createElement("div");
             suggestionDiv.style = "margin-left: 1rem;"
             suggestionDiv.appendChild(
                 createPairConstructElement(
-                    "Improvement", issuse.details.suggestions.improvement))
+                    "Improvement", issue.details.suggestions.improvement))
             suggestionDiv.appendChild(document.createElement("hr"));
             suggestionDiv.appendChild(
                 createPairConstructElement(
-                    "Current color", issuse.details.suggestions.current, issuse.details.suggestions.current))
+                    "Current color", issue.details.suggestions.current, issue.details.suggestions.current))
             suggestionDiv.appendChild(
                 createPairConstructElement(
-                    "Suggestion color", issuse.details.suggestions.suggested, issuse.details.suggestions.suggested))
+                    "Suggestion color", issue.details.suggestions.suggested, issue.details.suggestions.suggested))
             suggestionDiv.appendChild(document.createElement("hr"));
             suggestionDiv.appendChild(
                 createPairConstructElement(
-                    "Current ratio", issuse.details.suggestions.currentRatio))
+                    "Current ratio", issue.details.suggestions.currentRatio))
             suggestionDiv.appendChild(
                 createPairConstructElement(
-                    "Suggestion ratio", issuse.details.suggestions.suggestedRatio))
+                    "Suggestion ratio", issue.details.suggestions.suggestedRatio))
             contrastParametersContainer.appendChild(suggestionDiv);
         }
     }
-    details.appendChild(details_containet);
+    details.appendChild(details_contained);
     return details;
 }
 
-function showDetailsIssuses(issuses){
-    const issusesList = document.getElementById("issuses__list");
-    issuses.forEach((element, i) => {
-        issusesList.appendChild(generateIssuse(i, element));
+function showDetailsIssues(issues){
+    const issuesList = document.getElementById("issues__list");
+    issues.forEach((element, i) => {
+        issuesList.appendChild(generateIssue(i, element));
     });
 
 }
@@ -181,15 +181,15 @@ function showDetailsIssuses(issuses){
 function getReportAsHTML(){
 }
 
-function initSelectorsForSorting(issusesElements){
-    let issuseTypes = new Set([...issusesElements].map((item) => item.getAttribute("data-issuse-type")));
-    issuseTypes.forEach((item, i) => {
+function initSelectorsForSorting(issuesElements){
+    let issueTypes = new Set([...issuesElements].map((item) => item.getAttribute("data-issue-type")));
+    issueTypes.forEach((item, i) => {
         let opt = document.createElement("option");
         opt.innerText = item;
         opt.value = item;
-        selectorByIssuseTypes.appendChild(opt);
+        selectorByIssueTypes.appendChild(opt);
     });
-    let categoryTypes = new Set([...issusesElements].map((item) => item.getAttribute("data-category")));
+    let categoryTypes = new Set([...issuesElements].map((item) => item.getAttribute("data-category")));
     categoryTypes.forEach((item, i) => {
         let opt = document.createElement("option");
         opt.innerText = item;
@@ -198,7 +198,7 @@ function initSelectorsForSorting(issusesElements){
     });
 }
 
-function checkIsAllExpanedElements(elements){
+function checkIsAllExpandedElements(elements){
     let isAllExpanded = true;
     [...elements].forEach(item => {
         if (item.hasAttribute("open")){
@@ -212,28 +212,28 @@ function init(reportData){
     summaryUrl.innerText = reportData.url;
     summaryUrl.setAttribute("href", reportData.url);
     summaryDatetime.innerText = (new Date(reportData.timestamp)).toLocaleString('ru-RU');
-    summaryTotalIssuses.innerText = reportData.summary.total;
+    summaryTotalIssues.innerText = reportData.summary.total;
     summaryWarnings.innerText = reportData.summary.warnings;
     summaryErrors.innerText = reportData.summary.errors;
-    showDetailsIssuses(reportData.issues);
+    showDetailsIssues(reportData.issues);
 
-    const issusesElements = document.getElementsByClassName("issuses__list__details");
-    [...issusesElements].forEach(item => {
+    const issuesElements = document.getElementsByClassName("issues__list__details");
+    [...issuesElements].forEach(item => {
         item.addEventListener("click", function() {
             setTimeout(() => {
-                isAllIssusesElementsExpanded = checkIsAllExpanedElements(issusesElements);
-                btnExpandIssuses.innerText = isAllIssusesElementsExpanded ? "Expand all" : "Hide All";
+                isAllIssuesElementsExpanded = checkIsAllExpandedElements(issuesElements);
+                btnExpandIssues.innerText = isAllIssuesElementsExpanded ? "Expand all" : "Hide All";
             }, 5)
             
         })
     });
 
-    initSelectorsForSorting(issusesElements);
+    initSelectorsForSorting(issuesElements);
 
     btnAcceptFilters.addEventListener("click", function() {
-        let filtersElements = [...issusesElements];
+        let filtersElements = [...issuesElements];
         let categoryValue = selectorByCategories.value;
-        let issuseTypeValue = selectorByIssuseTypes.value;
+        let issueTypeValue = selectorByIssueTypes.value;
         filtersElements.forEach((item) => {
             item.classList.add("hidden");
         });
@@ -242,9 +242,9 @@ function init(reportData){
                 item.getAttribute("data-category") === categoryValue
             );
         }
-        if (issuseTypeValue != "null"){
+        if (issueTypeValue != "null"){
             filtersElements = filtersElements.filter(item => 
-                item.getAttribute("data-issuse-type") === issuseTypeValue
+                item.getAttribute("data-issue-type") === issueTypeValue
             );
         }
         filtersElements.forEach((item) => {
@@ -252,18 +252,18 @@ function init(reportData){
         });
     });
     btnResetFilters.addEventListener("click", function() {
-        let filtersElements = [...issusesElements];
+        let filtersElements = [...issuesElements];
         filtersElements.forEach(item => {
             item.classList.remove("hidden");
         })
         selectorByCategories.value = "null";
-        selectorByIssuseTypes.value = "null";
+        selectorByIssueTypes.value = "null";
     });
-    btnExpandIssuses.addEventListener("click", function() {
-        [...issusesElements].forEach(item => {
-            item.toggleAttribute("open", isAllIssusesElementsExpanded);
+    btnExpandIssues.addEventListener("click", function() {
+        [...issuesElements].forEach(item => {
+            item.toggleAttribute("open", isAllIssuesElementsExpanded);
         });
-        isAllIssusesElementsExpanded = !isAllIssusesElementsExpanded;
-        btnExpandIssuses.innerText = isAllIssusesElementsExpanded ? "Expand all" : "Hide All";
+        isAllIssuesElementsExpanded = !isAllIssuesElementsExpanded;
+        btnExpandIssues.innerText = isAllIssuesElementsExpanded ? "Expand all" : "Hide All";
     });   
 }
