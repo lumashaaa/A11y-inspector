@@ -23,16 +23,6 @@ function downloadAsHTML(reportData){
     font-size: 1rem;
 }
 
-code {
-  background-color: #f4f4f4;
-  color: #d63384;
-  padding: 0.8em;
-  border-radius: 4px;
-  font-family: 'Consolas', monospace;
-  font-size: 0.875em;
-  border: 1px solid #e1e1e1;
-}
-
 .about__list{
     margin-left: 1rem;
 }
@@ -129,6 +119,20 @@ code {
     width: 98%;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+}
+.issuses__list__details__title h3 {
+    margin: .3rem;
+}
+.issuses__list__details__code {
+    background-color: #f4f4f4;
+    color: #d63384;
+    padding: 0.8em;
+    border-radius: 4px;
+    font-family: 'Consolas', monospace;
+    font-size: 0.875em;
+    border: 1px solid #e1e1e1;
+    margin-bottom: .5rem;
 }
 
 .issuses__list__details__container {
@@ -210,23 +214,77 @@ select option:checked {
   background-color: #d93025;
   color: white;
 }
+
 .menu {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px black solid;
 }
+
 .menu__download {
     display: flex;
     align-items: center;
     flex-direction: row;
     justify-content: center;
 }
+
 #selectAsFormatIn {
     margin-right: 1rem;
 }
+
+#report-content--json {
+    width: 100%;
+}
+
+#report-content--json pre {
+    max-width: 95%;
+    white-space: break-spaces;
+}
+
+#report-content--json pre code {
+    display: flex;
+}
+
+#report--content--markdown--preview {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#report--content--markdown--preview code {
+    display: flex;
+    background-color: #f4f4f4;
+    color: #d63384;
+    padding: 0.1rem;
+    margin: .2rem;
+    border-radius: 4px;
+    font-family: 'Consolas', monospace;
+    font-size: 0.875em;
+    border: 1px solid #e1e1e1;
+    white-space: break-spaces;
+}
+
+#report--content--markdown--preview hr {
+    width: -webkit-fill-available;
+}
+
+.issuses__list__details__color__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.issuses__list__details__color__container__show {
+    width: 1rem;
+    height: 1rem;
+    border: .1rem solid;
+    margin-left: 1rem;
+}
     `;
-    const script = 
-    `
+    const script = `
     var isAllIssusesElementsExpanded = true;
 
 const popupBodyReport = document.getElementById("popup-body-report");
@@ -243,6 +301,29 @@ const btnAcceptFilters = document.getElementById("btn-accept-filters");
 const btnResetFilters = document.getElementById("btn-reset-filters");
 const btnExpandIssuses = document.getElementById("btn-expand-issuses");
 
+
+function createPairConstructElement(title, value, colorValue){
+    let colorDiv = document.createElement("div");
+    colorDiv.classList.add("issuses__list__details__color__container");
+    let titltColor = document.createElement("strong");
+    titltColor.innerText = title + (value ? ": " : "");
+    colorDiv.appendChild(titltColor);
+    if (value){
+        let valueContainer = document.createElement("span");
+        valueContainer.style = "display: inline-flex;flex-direction: row;align-items: center;"
+        let valueShowed = document.createElement("p");
+        valueShowed.innerText = value;
+        valueContainer.appendChild(valueShowed);
+        if (colorValue){
+            let colorShowed = document.createElement("div");
+            colorShowed.classList.add("issuses__list__details__color__container__show");
+            colorShowed.style.backgroundColor = colorValue;
+            valueContainer.appendChild(colorShowed);
+        }
+        colorDiv.appendChild(valueContainer);
+    }
+    return colorDiv;
+}
 
 
 
@@ -274,8 +355,8 @@ function generateIssuse(position, issuse){
     }
     let summary_container = document.createElement("span");
     summary_container.classList.add("issuses__list__details__title");
-    let category_span = document.createElement("span");
-    category_span.innerHTML = position + ": <strong>Category</strong>: " + cnt_category;
+    let category_span = document.createElement("h3");
+    category_span.innerHTML = "Issue: " + position + " > <strong>Category</strong>: " + cnt_category;
     let span_issuse_type = document.createElement("span");
     span_issuse_type.innerText = cnt_type;
     summary_container.appendChild(category_span);
@@ -284,27 +365,95 @@ function generateIssuse(position, issuse){
     details.appendChild(summary);
 
     let details_containet = document.createElement("div");
-    details_containet.classList.add("issuses__list__details__container");
-    let p_category = document.createElement("p");
-    p_category.innerHTML = "<strong>Message</strong>: " + cnt_message;
-    details_containet.appendChild(p_category);
 
     if (cnt_selector){
-        let p_selector = document.createElement("p");
-        p_selector.innerHTML = "<strong>Selector</strong>: " + cnt_selector;
-        details_containet.appendChild(p_selector);
+        details_containet.appendChild(createPairConstructElement("Selector", cnt_selector));
     }
+
+    details_containet.classList.add("issuses__list__details__container");
+    let p_message_title = document.createElement("strong");
+    p_message_title.innerText = "Message:";
+    details_containet.appendChild(p_message_title);
+    let p_message_text = document.createElement("p")
+    p_message_text.innerText = cnt_message;
+    details_containet.appendChild(p_message_text);
+    
     if (cnt_element){
         let label_for_element_code = document.createElement("p");
         label_for_element_code.innerHTML = "<strong>Element code</strong>:";
         details_containet.appendChild(label_for_element_code);
         let element_code = document.createElement("code");
+        element_code.classList.add("issuses__list__details__code");
         element_code.innerText = cnt_element;
         details_containet.appendChild(element_code);
     }
     
-    details.appendChild(details_containet);
 
+    if (cnt_category == "contrast"){
+        let hrAfterCode = document.createElement("hr");
+        hrAfterCode.style = "width: -webkit-fill-available;";
+        details_containet.appendChild(hrAfterCode);
+        details_containet.appendChild(createPairConstructElement("Contrast parameters"));
+
+        let contrastParametersContainer = document.createElement("div");
+        contrastParametersContainer.style = "margin-left: .7rem;"
+
+        contrastParametersContainer.appendChild(createPairConstructElement(
+            "Score", issuse.details.suggestions.score
+        ));
+
+        contrastParametersContainer.appendChild(createPairConstructElement("Background element:"));
+
+        let listBackColorShowed = document.createElement("ul");
+        [
+            createPairConstructElement(
+                "backroundColor", issuse.details.backgroundColor, issuse.details.backgroundColor),
+            createPairConstructElement(
+                "textColor", issuse.details.textColor, issuse.details.textColor),
+            createPairConstructElement(
+                "fontSize", issuse.details.fontSize),
+            createPairConstructElement(
+                "fontWeight", issuse.details.fontWeight),
+            createPairConstructElement(
+                "ratio", issuse.details.ratio),
+            createPairConstructElement(
+                "requiredRatio", issuse.details.requiredRatio)
+        ].forEach(item => {
+            let itemShowed = document.createElement("li");
+            itemShowed.appendChild(item);
+            listBackColorShowed.appendChild(itemShowed);
+        })
+        contrastParametersContainer.appendChild(listBackColorShowed);
+        details_containet.appendChild(contrastParametersContainer);
+
+        
+
+        if (issuse.details.suggestions){
+            contrastParametersContainer.appendChild(createPairConstructElement("Suggestions:"));
+
+            let suggestionDiv = document.createElement("div");
+            suggestionDiv.style = "margin-left: 1rem;"
+            suggestionDiv.appendChild(
+                createPairConstructElement(
+                    "Improvement", issuse.details.suggestions.improvement))
+            suggestionDiv.appendChild(document.createElement("hr"));
+            suggestionDiv.appendChild(
+                createPairConstructElement(
+                    "Current color", issuse.details.suggestions.current, issuse.details.suggestions.current))
+            suggestionDiv.appendChild(
+                createPairConstructElement(
+                    "Suggestion color", issuse.details.suggestions.suggested, issuse.details.suggestions.suggested))
+            suggestionDiv.appendChild(document.createElement("hr"));
+            suggestionDiv.appendChild(
+                createPairConstructElement(
+                    "Current ratio", issuse.details.suggestions.currentRatio))
+            suggestionDiv.appendChild(
+                createPairConstructElement(
+                    "Suggestion ratio", issuse.details.suggestions.suggestedRatio))
+            contrastParametersContainer.appendChild(suggestionDiv);
+        }
+    }
+    details.appendChild(details_containet);
     return details;
 }
 
@@ -524,13 +673,16 @@ function parseReportAsMarkdwon(reportData){
     _report += "**Ошибок:** " + reportData.summary.errors + "\n\n";
     _report += "## Детализация ошибок \n";
     reportData.issues.forEach((item, i) => {
-        _report += "### " + i + " > Category: " + item.category + "\n\n";
+        _report += "### **Issue:** " + i + "\n\n";
         _report += "**Type:** " + item.type + "\n";
+        _report += "**Category**" + item.category + "\n"
         _report += "**Message:** " + item.message + "\n";
         _report += item.selector ? "**Selector:** " + item.selector + "\n" : "";
         _report += item.element ? "**Element code:**\n```\n" + item.element + "\n```\n" : "";
         if (item.category === "contrast"){
-            _report += "#### Contrast parameters, Score: " + item.details.suggestions.score + "\n";
+            _report += "#### Contrast parameters\n\n";
+            _report += "**Score:** " + item.details.suggestions.score + "\n";
+            _report += "**Improvement:** " + item.details.suggestions.improvement + "\n\n"
             _report += "##### Background info\n\n"
             _report += "**backgroundColor:** " + item.details.backgroundColor + "\n";
             _report += "**fontSize:** " + item.details.fontSize + "\n";
@@ -558,7 +710,6 @@ function parseReportAsMarkdwon(reportData){
 
 function showInMarkdownFormat(reportData){
     _currentReportAsMarkdown = parseReportAsMarkdwon(reportData);
-    console.log(_currentReportAsMarkdown)
     const preview = document.getElementById("report--content--markdown--preview");
     const htmlText = marked.parse(_currentReportAsMarkdown);
     preview.innerHTML = htmlText;
@@ -591,7 +742,6 @@ document.addEventListener('DOMContentLoaded', function() {
         currentSelectedFormat = selectAsFormatIn.value;
         [...Object.values(formatSelectedPreviewContainers)].forEach((item) => {
             item.hidden = true;
-            console.log(item);
         })
         switch (currentSelectedFormat) {
             case "html":
