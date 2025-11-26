@@ -16,7 +16,7 @@ body{
     margin-right: 1rem;
 }
 
-.issuses__controls {
+.issues__controls {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -24,7 +24,7 @@ body{
     margin-bottom: 1rem;
 }
 
-.issuses__controls__selector {
+.issues__controls__selector {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -32,7 +32,7 @@ body{
     width: -webkit-fill-available;
 }
 
-.issuses__controls__buttons {
+.issues__controls__buttons {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -41,22 +41,22 @@ body{
     margin-top: 0.5rem;
 }
 
-.issuses__controls__buttons__filters {
+.issues__controls__buttons__filters {
     display: flex;
     flex-direction: row;
     align-items: center;
     /* width: 200%; */
     justify-content: space-between;
 }
-.issuses__controls__buttons__filters button {
+.issues__controls__buttons__filters button {
     margin-left: 1rem;
 }
 
-#issuses__list{
+#issues__list{
     margin-left: 1rem;
 }
 
-.issuses__list__details {
+.issues__list__details {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -68,7 +68,7 @@ body{
     margin-bottom: .5rem;
 }
 
-.issuses__list__details summary {
+.issues__list__details summary {
     /*display: flex;*/
     cursor: pointer;
     padding: .75rem 1.25rem;
@@ -79,31 +79,31 @@ body{
     justify-content: space-between;
 }
 
-.issuses__list__details__summary__issuse__default {
+.issues__list__details__summary__issue__default {
     background-color: #1a73e8;
     color: #ffffff;
 }
 
-.issuses__list__details__summary__issuse__warnign {
+.issues__list__details__summary__issue__warning {
     background-color: #f9ab00;
 }
 
-.issuses__list__details__summary__issuse__error {
+.issues__list__details__summary__issue__error {
     background-color: #d93025;
     color: #ffffff;
 }
 
-.issuses__list__details__title {
+.issues__list__details__title {
     display: inline-flex;
     width: 98%;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
-.issuses__list__details__title h3 {
+.issues__list__details__title h3 {
     margin: .3rem;
 }
-.issuses__list__details__code {
+.issues__list__details__code {
     background-color: #f4f4f4;
     color: #d63384;
     padding: 0.8em;
@@ -114,7 +114,7 @@ body{
     margin-bottom: .5rem;
 }
 
-.issuses__list__details__container {
+.issues__list__details__container {
     margin: 1.2rem; 
     display: flex;
     flex-direction: column;
@@ -249,14 +249,14 @@ select option:checked {
     width: -webkit-fill-available;
 }
 
-.issuses__list__details__color__container {
+.issues__list__details__color__container {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
 
-.issuses__list__details__color__container__show {
+.issues__list__details__color__container__show {
     width: 1rem;
     height: 1rem;
     border: .1rem solid;

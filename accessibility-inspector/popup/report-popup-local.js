@@ -105,7 +105,7 @@ function downloadAsHTML(reportData){
     color: #ffffff;
 }
 
-.issues__list__details__summary__issuse__warnign {
+.issues__list__details__summary__issue__warning {
     background-color: #f9ab00;
 }
 
